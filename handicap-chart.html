@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golf Handicap Chart - Average Score to Handicap - Golf Handicap Estimator</title>
+<meta name="description" content="Golf handicap chart showing what handicap corresponds to your average score. See what a 90, 95, or 100 average translates to as a handicap.">
+<style>
+  :root {
+    --bg: #f5f8f4;
+    --card: #ffffff;
+    --text: #26302a;
+    --muted: #6d7a71;
+    --accent: #3a7d44;
+    --accent-dark: #2b5d33;
+    --border: #dfe7df;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+  nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 20px; }
+  nav .nav-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 52px; flex-wrap: wrap; }
+  nav .nav-brand { font-weight: 700; color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+  nav .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; margin-left: 14px; }
+  nav .nav-links a:hover { color: var(--accent); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px 60px; }
+  h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); margin-top: 0; margin-bottom: 28px; font-size: 0.95rem; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  th { background: #edf5ee; text-align: left; padding: 12px 16px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent-dark); }
+  td { padding: 11px 16px; border-top: 1px solid var(--border); font-size: 0.95rem; }
+  tr:nth-child(even) td { background: #fafcfa; }
+  .article { margin-top: 40px; font-size: 0.95rem; }
+  .article h2 { font-size: 1.15rem; margin-top: 28px; }
+  footer { text-align: center; margin-top: 50px; color: var(--muted); font-size: 0.8rem; }
+  footer a { color: var(--muted); text-decoration: none; margin: 0 6px; }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="/">Golf Handicap Estimator</a>
+    <div class="nav-links">
+      <a href="/official-calculator.html">Official Calculator</a>
+      <a href="/course-handicap.html">Course Handicap</a>
+      <a href="/handicap-chart.html">Chart</a>
+      <a href="/about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <h1>Golf Handicap Chart</h1>
+  <p class="subtitle">What your typical 18-hole score roughly translates to as a handicap, on a par-72 course of average difficulty.</p>
+
+  <table>
+    <thead>
+      <tr><th>Typical Score</th><th>Approx. Handicap</th><th>Golfer Level</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>72</td><td>0 (scratch)</td><td>Elite amateur</td></tr>
+      <tr><td>75</td><td>2</td><td>Excellent</td></tr>
+      <tr><td>78</td><td>5</td><td>Very strong</td></tr>
+      <tr><td>81</td><td>7</td><td>Strong single digit</td></tr>
+      <tr><td>84</td><td>10</td><td>Solid player</td></tr>
+      <tr><td>87</td><td>12</td><td>Above average</td></tr>
+      <tr><td>90</td><td>15</td><td>Better than average</td></tr>
+      <tr><td>93</td><td>17</td><td>Around average</td></tr>
+      <tr><td>95</td><td>19</td><td>Average / bogey golfer</td></tr>
+      <tr><td>98</td><td>21</td><td>Casual player</td></tr>
+      <tr><td>100</td><td>23</td><td>Recreational</td></tr>
+      <tr><td>105</td><td>27</td><td>Improving beginner</td></tr>
+      <tr><td>110</td><td>31</td><td>Beginner</td></tr>
+      <tr><td>115</td><td>36</td><td>New golfer</td></tr>
+      <tr><td>120+</td><td>40+</td><td>Just getting started</td></tr>
+    </tbody>
+  </table>
+
+  <div class="article">
+    <h2>How to read this chart</h2>
+    <p>This chart approximates the relationship between what you typically shoot and your handicap on a course of standard difficulty. Because an official handicap is based on your best recent rounds — not your average — your true handicap is usually a few strokes lower than your average score minus par. That's already reflected in the numbers above.</p>
+    <p>Your actual handicap also depends on the difficulty of the courses you play: shooting 95 on a hard course indicates a better golfer than shooting 95 on an easy one. For a personalized number that accounts for course difficulty, use our <a href="/">handicap estimator</a>, or if you track your rounds with course ratings, the <a href="/official-calculator.html">official WHS calculator</a>.</p>
+    <h2>What's a good handicap?</h2>
+    <p>Most golfers who maintain an official handicap fall somewhere between 10 and 25. A single-digit handicap puts you in roughly the top quarter of players who track their game, and scratch (0) or better is rare — well under 2% of golfers. But because casual players who don't keep a handicap tend to score higher, a mid-teens handicap is genuinely better than the average golfer overall.</p>
+  </div>
+
+  <footer>
+    <p><a href="/">Estimator</a> <a href="/official-calculator.html">Official Calculator</a> <a href="/course-handicap.html">Course Handicap</a> <a href="/handicap-chart.html">Chart</a> <a href="/about.html">About</a> <a href="/contact.html">Contact</a></p>
+    <p><a href="https://swrltools.com">Part of Swrl Tools</a></p>
+  </footer>
+</div>
+
+</body>
+</html>

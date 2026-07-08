@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Official Golf Handicap Calculator (WHS) - Golf Handicap Estimator</title>
+<meta name="description" content="Calculate your official World Handicap System handicap index. Enter your scores with course rating and slope to compute score differentials and your handicap.">
+<style>
+  :root {
+    --bg: #f5f8f4;
+    --card: #ffffff;
+    --text: #26302a;
+    --muted: #6d7a71;
+    --accent: #3a7d44;
+    --accent-dark: #2b5d33;
+    --border: #dfe7df;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+  nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 20px; }
+  nav .nav-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 52px; flex-wrap: wrap; }
+  nav .nav-brand { font-weight: 700; color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+  nav .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; margin-left: 14px; }
+  nav .nav-links a:hover { color: var(--accent); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px 60px; }
+  h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); margin-top: 0; margin-bottom: 28px; font-size: 0.95rem; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .round-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .round-row input { width: 100%; padding: 9px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; }
+  .round-row input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .col-labels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 6px; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+  .add-btn { margin-top: 10px; background: none; border: 1px dashed var(--accent); color: var(--accent); padding: 9px; width: 100%; border-radius: 8px; font-size: 0.9rem; cursor: pointer; }
+  .add-btn:hover { background: #edf5ee; }
+  button.calc { margin-top: 20px; width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-size: 1.05rem; font-weight: 600; cursor: pointer; }
+  button.calc:hover { background: var(--accent-dark); }
+  #result { margin-top: 24px; padding: 18px; background: #edf5ee; border: 1px solid var(--border); border-radius: 10px; display: none; }
+  #result.show { display: block; }
+  #result .index { font-size: 1.8rem; font-weight: 700; color: var(--accent-dark); }
+  #result .note { color: var(--muted); font-size: 0.88rem; margin-top: 8px; }
+  .article { margin-top: 40px; font-size: 0.95rem; }
+  .article h2 { font-size: 1.15rem; margin-top: 28px; }
+  footer { text-align: center; margin-top: 50px; color: var(--muted); font-size: 0.8rem; }
+  footer a { color: var(--muted); text-decoration: none; margin: 0 6px; }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="/">Golf Handicap Estimator</a>
+    <div class="nav-links">
+      <a href="/official-calculator.html">Official Calculator</a>
+      <a href="/course-handicap.html">Course Handicap</a>
+      <a href="/handicap-chart.html">Chart</a>
+      <a href="/about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <h1>Official Handicap Calculator (WHS)</h1>
+  <p class="subtitle">Enter your rounds with course rating and slope to calculate your handicap index using the official World Handicap System formula.</p>
+
+  <div class="card">
+    <div class="col-labels">
+      <div>Score</div>
+      <div>Course Rating</div>
+      <div>Slope</div>
+    </div>
+    <div id="rounds">
+      <div class="round-row">
+        <input type="number" class="score" placeholder="88" min="55" max="150">
+        <input type="number" class="rating" placeholder="71.2" step="0.1" min="60" max="80">
+        <input type="number" class="slope" placeholder="128" min="55" max="155">
+      </div>
+      <div class="round-row">
+        <input type="number" class="score" placeholder="" min="55" max="150">
+        <input type="number" class="rating" placeholder="" step="0.1" min="60" max="80">
+        <input type="number" class="slope" placeholder="" min="55" max="155">
+      </div>
+      <div class="round-row">
+        <input type="number" class="score" placeholder="" min="55" max="150">
+        <input type="number" class="rating" placeholder="" step="0.1" min="60" max="80">
+        <input type="number" class="slope" placeholder="" min="55" max="155">
+      </div>
+    </div>
+    <button class="add-btn" onclick="addRow()">+ Add another round</button>
+    <button class="calc" onclick="calculate()">Calculate handicap index</button>
+
+    <div id="result">
+      <div class="index" id="indexOutput"></div>
+      <div class="note" id="noteOutput"></div>
+    </div>
+  </div>
+
+  <div class="article">
+    <h2>How the official calculation works</h2>
+    <p>Under the World Handicap System, each round you post becomes a "score differential" using the formula: (your score − course rating) × 113 ÷ slope rating. The 113 represents the slope of a course of standard difficulty. Your handicap index is then the average of your best 8 differentials from your most recent 20 rounds. When you have fewer than 20 rounds, the system uses a smaller number of your best scores — and applies a small adjustment in some cases — which this calculator handles automatically.</p>
+    <p>Course rating and slope are printed on your scorecard, usually near the tee information. Course rating estimates what a scratch golfer would shoot; slope measures how much harder the course plays for a bogey golfer than a scratch golfer.</p>
+    <h2>How many rounds do you need?</h2>
+    <p>An official handicap index can be established with as few as 3 rounds (54 holes). The more rounds you enter here, the more accurate and stable your index becomes. If you don't have course ratings handy or only remember rough scores, start with our <a href="/">quick estimator</a> instead.</p>
+  </div>
+
+  <footer>
+    <p>This calculator follows WHS formulas but is not a substitute for an official handicap index from an authorized golf association.</p>
+    <p><a href="/">Estimator</a> <a href="/official-calculator.html">Official Calculator</a> <a href="/course-handicap.html">Course Handicap</a> <a href="/handicap-chart.html">Chart</a> <a href="/about.html">About</a> <a href="/contact.html">Contact</a></p>
+    <p><a href="https://swrltools.com">Part of Swrl Tools</a></p>
+  </footer>
+</div>
+
+<script>
+function addRow() {
+  const container = document.getElementById('rounds');
+  if (container.children.length >= 20) {
+    alert('The handicap calculation uses a maximum of your 20 most recent rounds.');
+    return;
+  }
+  const row = document.createElement('div');
+  row.className = 'round-row';
+  row.innerHTML = '<input type="number" class="score" min="55" max="150">' +
+    '<input type="number" class="rating" step="0.1" min="60" max="80">' +
+    '<input type="number" class="slope" min="55" max="155">';
+  container.appendChild(row);
+}
+
+// WHS: number of differentials used (and adjustment) based on rounds posted
+function whsSelection(n) {
+  if (n <= 3) return { use: 1, adj: -2.0 };
+  if (n === 4) return { use: 1, adj: -1.0 };
+  if (n === 5) return { use: 1, adj: 0 };
+  if (n === 6) return { use: 2, adj: -1.0 };
+  if (n <= 8) return { use: 2, adj: 0 };
+  if (n <= 11) return { use: 3, adj: 0 };
+  if (n <= 14) return { use: 4, adj: 0 };
+  if (n <= 16) return { use: 5, adj: 0 };
+  if (n <= 18) return { use: 6, adj: 0 };
+  if (n === 19) return { use: 7, adj: 0 };
+  return { use: 8, adj: 0 };
+}
+
+function calculate() {
+  const rows = document.querySelectorAll('#rounds .round-row');
+  const diffs = [];
+  rows.forEach(row => {
+    const score = parseFloat(row.querySelector('.score').value);
+    const rating = parseFloat(row.querySelector('.rating').value);
+    const slope = parseFloat(row.querySelector('.slope').value);
+    if (!isNaN(score) && !isNaN(rating) && !isNaN(slope) && slope > 0) {
+      diffs.push((score - rating) * 113 / slope);
+    }
+  });
+
+  if (diffs.length < 3) {
+    alert('Enter at least 3 complete rounds (score, rating, and slope) to calculate a handicap index.');
+    return;
+  }
+
+  diffs.sort((a, b) => a - b);
+  const sel = whsSelection(diffs.length);
+  const used = diffs.slice(0, sel.use);
+  let index = used.reduce((a, b) => a + b, 0) / used.length + sel.adj;
+  index = Math.min(index, 54);
+  index = Math.round(index * 10) / 10;
+
+  document.getElementById('indexOutput').textContent = 'Handicap Index: ' + index.toFixed(1);
+  document.getElementById('noteOutput').textContent =
+    'Calculated from your best ' + sel.use + ' of ' + diffs.length + ' score differential' +
+    (diffs.length > 1 ? 's' : '') +
+    (sel.adj !== 0 ? ', with a ' + sel.adj + ' adjustment for limited rounds per WHS rules' : '') +
+    '. Enter all 20 of your most recent rounds for the most accurate index.';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

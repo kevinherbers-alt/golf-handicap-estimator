@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Handicap Calculator - Golf Handicap Estimator</title>
+<meta name="description" content="Convert your handicap index to a course handicap for any course. Enter your index plus the course's slope, rating, and par to see how many strokes you get.">
+<style>
+  :root {
+    --bg: #f5f8f4;
+    --card: #ffffff;
+    --text: #26302a;
+    --muted: #6d7a71;
+    --accent: #3a7d44;
+    --accent-dark: #2b5d33;
+    --border: #dfe7df;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+  nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 20px; }
+  nav .nav-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 52px; flex-wrap: wrap; }
+  nav .nav-brand { font-weight: 700; color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+  nav .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; margin-left: 14px; }
+  nav .nav-links a:hover { color: var(--accent); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px 60px; }
+  h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); margin-top: 0; margin-bottom: 28px; font-size: 0.95rem; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  label { display: block; font-weight: 600; margin-top: 18px; margin-bottom: 6px; font-size: 0.92rem; }
+  label:first-of-type { margin-top: 0; }
+  .hint { color: var(--muted); font-size: 0.8rem; font-weight: 400; }
+  input[type="number"] { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; }
+  input[type="number"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  button { margin-top: 24px; width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-size: 1.05rem; font-weight: 600; cursor: pointer; }
+  button:hover { background: var(--accent-dark); }
+  #result { margin-top: 24px; padding: 18px; background: #edf5ee; border: 1px solid var(--border); border-radius: 10px; display: none; }
+  #result.show { display: block; }
+  #result .strokes { font-size: 1.8rem; font-weight: 700; color: var(--accent-dark); }
+  #result .note { color: var(--muted); font-size: 0.88rem; margin-top: 8px; }
+  .article { margin-top: 40px; font-size: 0.95rem; }
+  .article h2 { font-size: 1.15rem; margin-top: 28px; }
+  footer { text-align: center; margin-top: 50px; color: var(--muted); font-size: 0.8rem; }
+  footer a { color: var(--muted); text-decoration: none; margin: 0 6px; }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="/">Golf Handicap Estimator</a>
+    <div class="nav-links">
+      <a href="/official-calculator.html">Official Calculator</a>
+      <a href="/course-handicap.html">Course Handicap</a>
+      <a href="/handicap-chart.html">Chart</a>
+      <a href="/about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <h1>Course Handicap Calculator</h1>
+  <p class="subtitle">Convert your handicap index into the number of strokes you actually get at a specific course and tee.</p>
+
+  <div class="card">
+    <label for="index">Your handicap index
+      <span class="hint">— don't have one? Try the <a href="/">estimator</a> first.</span>
+    </label>
+    <input type="number" id="index" placeholder="18.4" step="0.1" min="0" max="54">
+
+    <label for="slope">Slope rating of the tees you're playing
+      <span class="hint">— printed on the scorecard. Standard is 113.</span>
+    </label>
+    <input type="number" id="slope" placeholder="128" min="55" max="155">
+
+    <label for="rating">Course rating
+      <span class="hint">— also on the scorecard, e.g. 71.2</span>
+    </label>
+    <input type="number" id="rating" placeholder="71.2" step="0.1" min="60" max="80">
+
+    <label for="par">Par
+      <span class="hint">— for the tees you're playing</span>
+    </label>
+    <input type="number" id="par" value="72" min="60" max="74">
+
+    <button onclick="calculate()">Calculate course handicap</button>
+
+    <div id="result">
+      <div class="strokes" id="strokesOutput"></div>
+      <div class="note" id="noteOutput"></div>
+    </div>
+  </div>
+
+  <div class="article">
+    <h2>Why your handicap changes by course</h2>
+    <p>Your handicap index is a portable measure of your ability, but the number of strokes you actually receive changes depending on where you play. A hard course (high slope) gives you more strokes; an easy one gives you fewer. The official formula is: course handicap = handicap index × (slope ÷ 113) + (course rating − par). The result is rounded to the nearest whole number — that's how many strokes you get for that round.</p>
+    <h2>Where to find slope and rating</h2>
+    <p>Every rated course prints these numbers on the scorecard, usually in a small table near the tee names. Each set of tees has its own course rating and slope, so make sure you use the values for the tees you're actually playing.</p>
+  </div>
+
+  <footer>
+    <p><a href="/">Estimator</a> <a href="/official-calculator.html">Official Calculator</a> <a href="/course-handicap.html">Course Handicap</a> <a href="/handicap-chart.html">Chart</a> <a href="/about.html">About</a> <a href="/contact.html">Contact</a></p>
+    <p><a href="https://swrltools.com">Part of Swrl Tools</a></p>
+  </footer>
+</div>
+
+<script>
+function calculate() {
+  const index = parseFloat(document.getElementById('index').value);
+  const slope = parseFloat(document.getElementById('slope').value);
+  const rating = parseFloat(document.getElementById('rating').value);
+  const par = parseFloat(document.getElementById('par').value);
+
+  if (isNaN(index) || isNaN(slope) || isNaN(rating) || isNaN(par)) {
+    alert('Please fill in all fields.');
+    return;
+  }
+
+  const ch = Math.round(index * (slope / 113) + (rating - par));
+
+  document.getElementById('strokesOutput').textContent =
+    'Course Handicap: ' + ch + (ch === 1 ? ' stroke' : ' strokes');
+  document.getElementById('noteOutput').textContent =
+    'With a ' + index.toFixed(1) + ' index at this course (slope ' + slope + ', rating ' + rating.toFixed(1) +
+    ', par ' + par + '), you receive ' + ch + ' stroke' + (ch === 1 ? '' : 's') + ' for the round.';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

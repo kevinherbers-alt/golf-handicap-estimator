@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golf Handicap Estimator - What's My Handicap?</title>
+<meta name="description" content="Free golf handicap estimator. Don't know your handicap? Enter your typical scores and get an estimated handicap range instantly - no membership or course ratings needed.">
+<style>
+  :root {
+    --bg: #f5f8f4;
+    --card: #ffffff;
+    --text: #26302a;
+    --muted: #6d7a71;
+    --accent: #3a7d44;
+    --accent-dark: #2b5d33;
+    --border: #dfe7df;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+  }
+  nav .nav-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    flex-wrap: wrap;
+  }
+  nav .nav-brand {
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  nav .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-left: 14px;
+  }
+  nav .nav-links a:hover { color: var(--accent); }
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+  h1 {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    color: var(--muted);
+    margin-top: 0;
+    margin-bottom: 28px;
+    font-size: 0.95rem;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-top: 18px;
+    margin-bottom: 6px;
+    font-size: 0.92rem;
+  }
+  label:first-of-type { margin-top: 0; }
+  .hint { color: var(--muted); font-size: 0.8rem; font-weight: 400; }
+  input[type="number"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--text);
+  }
+  input[type="number"]:focus, select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .score-row { display: flex; gap: 8px; }
+  .score-row input { flex: 1; }
+  button {
+    margin-top: 24px;
+    width: 100%;
+    padding: 13px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { background: var(--accent-dark); }
+  #result {
+    margin-top: 24px;
+    padding: 18px;
+    background: #edf5ee;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: none;
+  }
+  #result.show { display: block; }
+  #result .range {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+  }
+  #result .note {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-top: 8px;
+  }
+  .article {
+    margin-top: 40px;
+    font-size: 0.95rem;
+  }
+  .article h2 { font-size: 1.15rem; margin-top: 28px; }
+  footer {
+    text-align: center;
+    margin-top: 50px;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  footer a { color: var(--muted); text-decoration: none; margin: 0 6px; }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="/">Golf Handicap Estimator</a>
+    <div class="nav-links">
+      <a href="/official-calculator.html">Official Calculator</a>
+      <a href="/course-handicap.html">Course Handicap</a>
+      <a href="/handicap-chart.html">Chart</a>
+      <a href="/about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <h1>Golf Handicap Estimator</h1>
+  <p class="subtitle">Don't know your handicap? Enter what you typically shoot and get an instant estimate — no membership, course ratings, or score history required.</p>
+
+  <div class="card">
+    <label>Your recent scores (enter 1 to 5)
+      <span class="hint">— just what you remember shooting. More scores = better estimate.</span>
+    </label>
+    <div class="score-row">
+      <input type="number" id="s1" placeholder="95" min="55" max="150">
+      <input type="number" id="s2" placeholder="" min="55" max="150">
+      <input type="number" id="s3" placeholder="" min="55" max="150">
+      <input type="number" id="s4" placeholder="" min="55" max="150">
+      <input type="number" id="s5" placeholder="" min="55" max="150">
+    </div>
+
+    <label for="holes">Are these 9-hole or 18-hole scores?</label>
+    <select id="holes">
+      <option value="18">18 holes</option>
+      <option value="9">9 holes</option>
+    </select>
+
+    <label for="par">Par of the course you usually play
+      <span class="hint">— most courses are par 70-72. It's printed on the scorecard.</span>
+    </label>
+    <input type="number" id="par" value="72" min="60" max="74">
+
+    <label for="difficulty">How hard is the course?</label>
+    <select id="difficulty">
+      <option value="105">Pretty easy — wide open, forgiving</option>
+      <option value="113" selected>Average</option>
+      <option value="125">Hard — lots of trouble, tight fairways</option>
+    </select>
+
+    <button onclick="estimate()">Estimate my handicap</button>
+
+    <div id="result">
+      <div class="range" id="rangeOutput"></div>
+      <div class="note" id="noteOutput"></div>
+    </div>
+  </div>
+
+  <div class="article">
+    <h2>How this estimator works</h2>
+    <p>An official golf handicap requires posting scores with exact course ratings and slope values over many rounds. But most casual golfers just want a solid ballpark answer to "what's my handicap?" This estimator uses the same underlying math as the official World Handicap System — converting each score into a differential based on course difficulty — but substitutes sensible defaults for the data you don't have. The fewer scores you enter, the wider your estimated range, because a single round tells us much less about your true ability than five rounds do.</p>
+    <h2>What your handicap actually means</h2>
+    <p>A handicap represents your demonstrated scoring potential, not your average score. A 20-handicap golfer doesn't shoot 20-over every round — they shoot 20-over on a good day. That's why official handicaps use only your best 8 of your last 20 rounds. Our estimate accounts for this by weighting your better scores more heavily than your worse ones.</p>
+    <p>Ready for the real thing? Once you're tracking scores consistently, try our <a href="/official-calculator.html">official WHS handicap calculator</a>, or see what handicap common scores translate to on our <a href="/handicap-chart.html">handicap chart</a>.</p>
+  </div>
+
+  <footer>
+    <p>Estimates are approximations and not an official handicap index.</p>
+    <p><a href="/">Estimator</a> <a href="/official-calculator.html">Official Calculator</a> <a href="/course-handicap.html">Course Handicap</a> <a href="/handicap-chart.html">Chart</a> <a href="/about.html">About</a> <a href="/contact.html">Contact</a></p>
+    <p><a href="https://swrltools.com">Part of Swrl Tools</a></p>
+  </footer>
+</div>
+
+<script>
+function estimate() {
+  const ids = ['s1','s2','s3','s4','s5'];
+  let scores = [];
+  for (const id of ids) {
+    const v = parseFloat(document.getElementById(id).value);
+    if (!isNaN(v)) scores.push(v);
+  }
+  const holes = document.getElementById('holes').value;
+  const par = parseFloat(document.getElementById('par').value);
+  const slope = parseFloat(document.getElementById('difficulty').value);
+
+  if (scores.length === 0 || isNaN(par)) {
+    alert('Please enter at least one score and the course par.');
+    return;
+  }
+
+  // Convert 9-hole scores to 18-hole equivalents
+  if (holes === '9') {
+    scores = scores.map(s => s * 2);
+  }
+
+  // Approximate course rating as par (typical for average courses; the
+  // difficulty dropdown's slope adjustment carries most of the signal)
+  const rating = par + (slope - 113) * 0.04;
+
+  // Score differentials: (score - rating) * 113 / slope
+  let diffs = scores.map(s => (s - rating) * 113 / slope);
+  diffs.sort((a, b) => a - b);
+
+  // Weight better rounds more (official system uses best 8 of 20).
+  // With limited data: average the better half, lightly blended with overall.
+  const half = Math.max(1, Math.ceil(diffs.length / 2));
+  const bestAvg = diffs.slice(0, half).reduce((a,b) => a+b, 0) / half;
+  const allAvg = diffs.reduce((a,b) => a+b, 0) / diffs.length;
+  let center = bestAvg * 0.7 + allAvg * 0.3;
+
+  // Range width shrinks with more scores
+  const width = [6, 4.5, 3.5, 3, 2.5][scores.length - 1];
+
+  let low = Math.max(0, center - width / 2);
+  let high = center + width / 2;
+
+  // Cap at max handicap
+  high = Math.min(high, 54);
+  low = Math.min(low, 54);
+
+  const lowR = Math.round(low);
+  const highR = Math.round(high);
+
+  document.getElementById('rangeOutput').textContent =
+    lowR === highR ? 'About ' + lowR : lowR + ' – ' + highR;
+
+  // Plain-language golfer category
+  const mid = (low + high) / 2;
+  let category;
+  if (mid < 5) category = "You're a low single-digit player — better than roughly 95% of golfers.";
+  else if (mid < 10) category = "You're a single-digit handicap — a strong player, better than most.";
+  else if (mid < 15) category = "You're a solid mid-handicap golfer — better than the average player.";
+  else if (mid < 20) category = "You're right around the average golfer's range — a bogey golfer on good days.";
+  else if (mid < 28) category = "You're a bogey-plus golfer, like a large share of casual players.";
+  else category = "You're a beginner or high-handicap golfer — plenty of room to improve, and the handicap system is built to keep games fair at every level.";
+
+  document.getElementById('noteOutput').textContent =
+    category + ' Based on ' + scores.length + ' score' + (scores.length > 1 ? 's' : '') +
+    '. Enter more scores for a tighter estimate.';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>
