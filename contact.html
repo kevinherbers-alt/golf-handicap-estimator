@@ -29,6 +29,24 @@
   footer { text-align: center; margin-top: 50px; color: var(--muted); font-size: 0.8rem; }
   footer a { color: var(--muted); text-decoration: none; margin: 0 6px; }
   footer a:hover { color: var(--accent); }
+
+/* Dropdown nav */
+.nav-links { position: relative; display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; padding: 4px 8px; border-radius: 6px; }
+.nav-links a:hover { color: var(--accent); background: #f0f4ec; }
+.dropdown { position: relative; }
+.dropdown-btn { color: var(--muted); font-size: 0.85rem; padding: 4px 8px; border-radius: 6px; cursor: pointer; background: none; border: none; font-family: inherit; display: flex; align-items: center; gap: 4px; }
+.dropdown-btn:hover { color: var(--accent); background: #f0f4ec; }
+.dropdown-btn::after { content: '▾'; font-size: 0.7rem; }
+.dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); min-width: 220px; z-index: 100; padding: 6px; }
+.dropdown-menu a { display: block; padding: 8px 12px; color: var(--text); text-decoration: none; font-size: 0.85rem; border-radius: 6px; }
+.dropdown-menu a:hover { background: #f0f4ec; color: var(--accent); }
+.dropdown:hover .dropdown-menu { display: block; }
+@media (max-width: 600px) {
+  .dropdown-menu { position: static; box-shadow: none; border: none; background: #f0f4ec; margin-top: 4px; }
+  .dropdown:hover .dropdown-menu, .dropdown-menu.open { display: block; }
+}
+
 </style>
 </head>
 <body>
@@ -37,11 +55,28 @@
   <div class="nav-inner">
     <a class="nav-brand" href="/">Golf Handicap Estimator</a>
     <div class="nav-links">
-      <a href="/official-calculator">Official Calculator</a>
-      <a href="/course-handicap">Course Handicap</a>
-      <a href="/handicap-chart">Chart</a>
-      <a href="/rating-vs-slope">Rating vs Slope</a>
-      <a href="/get-official-handicap">Get a Handicap</a>
+      <a href="/" class="cta">Try the Calculator</a>
+      <div class="dropdown">
+        <button class="dropdown-btn">Calculators</button>
+        <div class="dropdown-menu">
+          <a href="/official-calculator">WHS Official Calculator</a>
+          <a href="/course-handicap">Course Handicap Calculator</a>
+          <a href="/handicap-chart">Handicap Chart</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropdown-btn">Guides</button>
+        <div class="dropdown-menu">
+          <a href="/what-is-a-good-handicap">What Is a Good Handicap?</a>
+          <a href="/which-rounds-count-for-handicap">Which Rounds Count?</a>
+          <a href="/using-handicap-in-match-play">Using Handicap in Match Play</a>
+          <a href="/why-handicap-changes">Why Your Handicap Changes</a>
+          <a href="/beginner-handicap-guide">Beginner's Guide to Handicaps</a>
+          <a href="/how-long-to-get-handicap">How Long to Establish</a>
+          <a href="/rating-vs-slope">Rating vs Slope Explained</a>
+          <a href="/get-official-handicap">How to Get an Official Handicap</a>
+        </div>
+      </div>
       <a href="/about">About</a>
     </div>
   </div>
@@ -60,6 +95,7 @@
 
   <footer>
     <p><a href="/">Estimator</a> <a href="/official-calculator">Official Calculator</a> <a href="/course-handicap">Course Handicap</a> <a href="/handicap-chart">Chart</a> <a href="/rating-vs-slope">Rating vs Slope</a> <a href="/get-official-handicap">Get a Handicap</a> <a href="/about">About</a> <a href="/contact">Contact</a> <a href="/privacy-policy">Privacy</a></p>
+    <p><a href="/what-is-a-good-handicap">What Is a Good Handicap?</a> <a href="/which-rounds-count-for-handicap">Which Rounds Count</a> <a href="/using-handicap-in-match-play">Using Handicap in Match Play</a> <a href="/why-handicap-changes">Why Handicap Changes</a> <a href="/beginner-handicap-guide">Beginner Guide</a> <a href="/how-long-to-get-handicap">How Long to Establish</a></p>
     <p><a href="https://swrltools.com">Part of Swrl Tools</a></p>
   </footer>
 </div>
