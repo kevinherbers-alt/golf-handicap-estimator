@@ -50,11 +50,11 @@
   .free-badge { display: inline-block; background: #edf5ee; color: var(--accent-dark); font-size: 0.78rem; font-weight: 700; border-radius: 999px; padding: 4px 12px; margin-bottom: 18px; }
 
 /* ── Dropdown nav ── */
-.dropdown { position: relative; display: inline-block; }
+.dropdown { position: relative; display: inline-block; } .dropdown-btn { padding-bottom: 10px; margin-bottom: -6px; }
 .dropdown-btn { color: var(--muted); font-size: 0.85rem; padding: 4px 8px; border-radius: 6px; cursor: pointer; background: none; border: none; font-family: inherit; display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; line-height: inherit; }
 .dropdown-btn:hover { color: var(--accent); background: #f0f4ec; }
 .dropdown-btn::after { content: '\25BE'; font-size: 0.65rem; opacity: 0.7; }
-.dropdown-menu { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.10); min-width: 210px; z-index: 999; padding: 6px; }
+.dropdown-menu { display: none; position: absolute; top: 100%; margin-top: 2px; left: 0; background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.10); min-width: 210px; z-index: 999; padding: 6px; }
 .dropdown-menu a { display: block; padding: 8px 12px; color: var(--text); text-decoration: none; font-size: 0.84rem; border-radius: 6px; white-space: nowrap; }
 .dropdown-menu a:hover { background: #f0f4ec; color: var(--accent); }
 .dropdown:hover > .dropdown-menu { display: block; }
@@ -214,6 +214,24 @@ function calculate() {
     '. Enter all 20 of your most recent rounds for the most accurate index.';
   document.getElementById('result').classList.add('show');
 }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.dropdown-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var menu = this.nextElementSibling;
+      var isOpen = menu.style.display === 'block';
+      // close all
+      document.querySelectorAll('.dropdown-menu').forEach(function(m) { m.style.display = ''; });
+      // toggle this one
+      if (!isOpen) menu.style.display = 'block';
+    });
+  });
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.dropdown-menu').forEach(function(m) { m.style.display = ''; });
+  });
+});
 </script>
 </body>
 </html>
